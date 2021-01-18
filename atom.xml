@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2021-01-18T05:46:45.097Z</updated>
+  <updated>2021-01-18T10:00:56.376Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,15 +17,28 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="http://example.com/2021/01/18/[Unity2D]%E4%B8%89%E5%A4%A9%E5%85%A5%E9%97%A8-%E5%8D%B3%E6%97%B6%E6%88%98%E7%95%A5%E8%B1%A1%E6%A3%8B/"/>
-    <id>http://example.com/2021/01/18/[Unity2D]%E4%B8%89%E5%A4%A9%E5%85%A5%E9%97%A8-%E5%8D%B3%E6%97%B6%E6%88%98%E7%95%A5%E8%B1%A1%E6%A3%8B/</id>
-    <published>2021-01-18T05:46:45.097Z</published>
-    <updated>2021-01-18T05:46:45.097Z</updated>
+    <title>Unity2D-三天入门-即时战略象棋-(1)精灵与移动</title>
+    <link href="http://example.com/2020/10/04/Unity2D-%E4%B8%89%E5%A4%A9%E5%85%A5%E9%97%A8-%E5%8D%B3%E6%97%B6%E6%88%98%E7%95%A5%E8%B1%A1%E6%A3%8B-(1)%E7%B2%BE%E7%81%B5%E4%B8%8E%E7%A7%BB%E5%8A%A8/"/>
+    <id>http://example.com/2020/10/04/Unity2D-%E4%B8%89%E5%A4%A9%E5%85%A5%E9%97%A8-%E5%8D%B3%E6%97%B6%E6%88%98%E7%95%A5%E8%B1%A1%E6%A3%8B-(1)%E7%B2%BE%E7%81%B5%E4%B8%8E%E7%A7%BB%E5%8A%A8/</id>
+    <published>2020-10-04T05:43:46.000Z</published>
+    <updated>2021-01-18T10:00:56.376Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Unity2D-三天入门-即时战略象棋-1-精灵与移动"><a href="#Unity2D-三天入门-即时战略象棋-1-精灵与移动" class="headerlink" title="Unity2D-三天入门-即时战略象棋-(1)精灵与移动"></a>Unity2D-三天入门-即时战略象棋-(1)精灵与移动</h1><p>此系列博客用以介绍Unity2D游戏开发的基础。</p><p>游戏介绍：</p><p>游戏素材建立于传统象棋。但是操作不同于传统象棋，玩家可以同时控制多个棋子移动，每个棋子移动到指定位置需要一定的时间，移动到目的地后需要冷却一定时间。因此游戏不再是回合制行动，棋子的行为模式需要即时判断。由于游戏是两人对战的即时战略模式，还需要实现网络对战功能。</p><p>游戏涉及:</p><ul><li>棋子坐标化的显示</li><li>棋子符合规则下的动态位移</li><li>棋子吃棋的判定</li><li>网络对战同步行为</li></ul><p>接下来将以此介绍需要做的工作。</p><h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><ul><li>Unity 2019.3.4f1</li><li>Visual Studio Community 2019</li><li>脚本语言C#</li></ul><h2 id="相关项目"><a href="#相关项目" class="headerlink" title="相关项目"></a>相关项目</h2><p><a href="https://github.com/Valhalla-LynX/InstantChess">项目工程</a></p><p>将package拖入Project窗口后即可导入新项目，打开Scenes下的playing窗口即是主要工作场景。</p><h2 id="Unity的使用"><a href="#Unity的使用" class="headerlink" title="Unity的使用"></a>Unity的使用</h2><p>推荐到Unity官网下载Unity管理工具Unity Hub，通过Unity Hub来下载Unity，通过Hub可以方便的管理不同版本Unity需要的模块，这里使用Unity 2019.3.4f1。登录Hub并获得授权后，选择要安装的Unity版本和相关模块，这里选择了默认的Visual Studio Community 2019作为脚本开发的IDE工具，还可以选择需要的发行模块如Windows和Android支持，开发文档，以及语言包。安装完成后选择版本可以修改模块、在资源管理器中打开，或者卸载。其中开发文档位于Data\Documentation目录下。<br>在Hub的项目栏目下，新建游戏项目，可以选择Unity的版本，选择游戏类型，这里为2D游戏类型，填写项目名称并选择项目工作的目录位置后，创建项目。</p><img src="http://pic.valhalla.space/img/Blog/PicGo/Blog1-18 Unity Install.png?Blog" alt="Unity Hub" style="zoom:67%;" /><p>进入Unity工作窗口，主要涉及六个工作窗口和一个操作工具栏。</p><ul><li>Project项目窗口，相当于打开项目根目录下的资源管理器，管理所有资源文件。</li><li>Scene场景窗口，在项目的Scenes目录下新建场景，双击打开场景窗口将进入这个场景工作。场景是搭建游戏舞台的主要工作对象。</li><li>Layer层级窗口，层级将以打开的Scene场景为跟，展现其中的所有的游戏对象Game Object，通过操控游戏对象来改变游戏状态。</li><li>Inspector检查器窗口，选择游戏对象后，检查器将展现游戏对象挂载的脚本。其中脚本就是通过代码控制行为的关键。</li><li>Game游戏窗口，反馈场景中主摄像机视角的画面，也是游戏运行后的画面。点击工具栏中的运行，当前场景开始运反馈真实效果。</li><li>Console控制台窗口，游戏相关脚本的运行输出与报错将在这里展现，通过Debug的Log()函数可以输出信息到控制台。</li><li>操作工具栏包括手形工具、移动工具、旋转工具、缩进工具和矩工具等工具，分别对应快捷键Q、W、E、R和T等。操作工具可以改变游戏对象的基础属性，如位置和空间状态。</li></ul><h2 id="游戏对象"><a href="#游戏对象" class="headerlink" title="游戏对象"></a>游戏对象</h2><p>在场景中新建空的游戏对象，空游戏对象默认拥有一个Transform的组件，该组件负责处理游戏对象在场景中的世界位置和父子级相对位置，以及移动、旋转和缩放处理。在Layer窗口下，可以将一个对象挂载到另一个对象的子集中。此处将棋子集合对象chessGroup挂载到棋盘对象board下，以保证场景中层级关系一定的逻辑性。</p><h2 id="Main-Camera主摄影机"><a href="#Main-Camera主摄影机" class="headerlink" title="Main Camera主摄影机"></a>Main Camera主摄影机</h2><p>新建场景会自带一个主摄影机，用以反馈游戏的画面，目前无需处理。</p><h2 id="Sprite精灵-对象图像"><a href="#Sprite精灵-对象图像" class="headerlink" title="Sprite精灵-对象图像"></a>Sprite精灵-对象图像</h2><p>精灵是2D游戏处理对象的载体。为了将精灵渲染到对象位置上，需要给添加组件Sprite Render精灵渲染器，并将项目内的图片素材拖到该组件的精灵一栏上，这样对象就关联上了所需的图像。</p><p>=====2021-1-18 待更新</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Unity2D-三天入门-即时战略象棋-1-精灵与移动&quot;&gt;&lt;a href=&quot;#Unity2D-三天入门-即时战略象棋-1-精灵与移动&quot; class=&quot;headerlink&quot; title=&quot;Unity2D-三天入门-即时战略象棋-(1)精灵与移动&quot;&gt;&lt;/a&gt;Unit</summary>
+      
     
     
     
+    <category term="游戏开发" scheme="http://example.com/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/"/>
     
+    
+    <category term="GameDev" scheme="http://example.com/tags/GameDev/"/>
+    
+    <category term="Unity" scheme="http://example.com/tags/Unity/"/>
     
   </entry>
   
