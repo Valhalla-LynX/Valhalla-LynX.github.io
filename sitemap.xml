@@ -2,20 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/2021/01/20/gameDev/Unity2D-InstantChess-02/</loc>
-    
-    <lastmod>2021-01-21</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://example.com/2021/01/01/social/ChuanxiluNotes/</loc>
-    
-    <lastmod>2021-01-21</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://example.com/2021/01/21/gameDev/Unity2D-InstantChess-03/</loc>
     
     <lastmod>2021-01-21</lastmod>
@@ -23,7 +9,21 @@
   </url>
   
   <url>
+    <loc>http://example.com/2021/01/20/gameDev/Unity2D-InstantChess-02/</loc>
+    
+    <lastmod>2021-01-21</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://example.com/2021/01/18/gameDev/Unity2D-InstantChess-01/</loc>
+    
+    <lastmod>2021-01-21</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://example.com/2021/01/01/social/ChuanxiluNotes/</loc>
     
     <lastmod>2021-01-21</lastmod>
     
