@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互和INI插件 | Observatory</title><meta name="keywords" content="GameDev,Unity,C#"><meta name="author" content="V-LynX"><meta name="copyright" content="V-LynX"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="此系列博客用以介绍Unity2D游戏开发的基础。 游戏介绍： 游戏素材建立于传统象棋。但是操作不同于传统象棋，玩家可以同时控制多个棋子移动，每个棋子移动到指定位置需要一定的时间，移动到目的地后需要冷却一定时间。因此游戏不再是回合制行动，棋子的行为模式需要即时判断。由于游戏是两人对战的即时战略模式，还需要实现网络对战功能。   游戏开发逻辑不唯一，目前逻辑仅作参考，欢迎交流更好的逻辑。 加粗字体将介">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互和INI插件">
+<meta property="og:url" content="http://example.com/2021/01/20/gameDev/Unity2D-InstantChess-02/index.html">
+<meta property="og:site_name" content="Observatory">
+<meta property="og:description" content="此系列博客用以介绍Unity2D游戏开发的基础。 游戏介绍： 游戏素材建立于传统象棋。但是操作不同于传统象棋，玩家可以同时控制多个棋子移动，每个棋子移动到指定位置需要一定的时间，移动到目的地后需要冷却一定时间。因此游戏不再是回合制行动，棋子的行为模式需要即时判断。由于游戏是两人对战的即时战略模式，还需要实现网络对战功能。   游戏开发逻辑不唯一，目前逻辑仅作参考，欢迎交流更好的逻辑。 加粗字体将介">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog">
+<meta property="article:published_time" content="2021-01-20T05:04:37.000Z">
+<meta property="article:modified_time" content="2021-01-21T12:17:46.275Z">
+<meta property="article:author" content="V-LynX">
+<meta property="article:tag" content="GameDev">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="C#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/01/20/gameDev/Unity2D-InstantChess-02/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?28754adf25091073afae7978c85a0022";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  hexoversion: '5.2.0',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  ClickShowText: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true,
+  postUpdate: '2021-01-21 20:17:46'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {
+  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }
+})()</script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="Observatory" type="application/atom+xml">
+</head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="http://pic.valhalla.space/img/logo.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">5</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">5</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div id="body-wrap"><div id="sidebar"><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-number">1.</span> <span class="toc-text">开发环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.</span> <span class="toc-text">相关项目</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%8A%B6%E6%80%81%E5%AD%98%E5%82%A8"><span class="toc-number">3.</span> <span class="toc-text">状态存储</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%B4%BE%E7%94%9F%E4%B8%8E%E6%9E%9A%E4%B8%BE%E3%80%81%E6%A3%80%E6%9F%A5%E5%99%A8%E7%89%B9%E6%80%A7"><span class="toc-number">4.</span> <span class="toc-text">类型派生与枚举、检查器特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%84%9A%E6%9C%AC%E7%9A%84%E4%BA%A4%E4%BA%92"><span class="toc-number">5.</span> <span class="toc-text">脚本的交互</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UI"><span class="toc-number">6.</span> <span class="toc-text">UI</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Advanced-INI-Parser"><span class="toc-number">7.</span> <span class="toc-text">Advanced INI Parser</span></a></li></ol></div></div></div><header class="post-bg" id="page-header" style="background-image: url(http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Observatory</a></span><span id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><span class="close" id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互和INI插件</div></div><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-20T05:04:37.000Z" title="发表于 2021-01-20 13:04:37">2021-01-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-21T12:17:46.275Z" title="更新于 2021-01-21 20:17:46">2021-01-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a></span></div><div class="meta-secondline"> <span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><p>此系列博客用以介绍Unity2D游戏开发的基础。</p>
+<p>游戏介绍：</p>
+<p>游戏素材建立于传统象棋。但是操作不同于传统象棋，玩家可以同时控制多个棋子移动，每个棋子移动到指定位置需要一定的时间，移动到目的地后需要冷却一定时间。因此游戏不再是回合制行动，棋子的行为模式需要即时判断。由于游戏是两人对战的即时战略模式，还需要实现网络对战功能。</p>
+<img src="http://pic.valhalla.space/img/Blog/PicGo/Blog1-18 Chess.gif?Blog"  />
+
+<p><strong>游戏开发逻辑不唯一，目前逻辑仅作参考，欢迎交流更好的逻辑。</strong></p>
+<p><strong>加粗字体将介绍Unity主要的特性，如果不关注游戏逻辑可以直接看加粗字体。</strong></p>
+<p>游戏涉及:</p>
+<ul>
+<li>棋子坐标化的显示</li>
+<li>棋子符合规则下的动态位移</li>
+<li>棋子吃棋的判定</li>
+<li>网络对战同步行为</li>
+</ul>
+<p>承接上一篇博客，现在来实现棋子的吃子判定。</p>
+<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><ul>
+<li>Unity 2019.3.4f1</li>
+<li>Visual Studio Community 2019</li>
+<li>脚本语言C#</li>
+</ul>
+<h1 id="相关项目"><a href="#相关项目" class="headerlink" title="相关项目"></a>相关项目</h1><p><a target="_blank" rel="noopener" href="https://github.com/Valhalla-LynX/InstantChess">项目工程</a></p>
+<p>将package拖入Project窗口后即可导入新项目，打开Scenes下的playing窗口即是主要工作场景。</p>
+<h1 id="状态存储"><a href="#状态存储" class="headerlink" title="状态存储"></a>状态存储</h1><p>这一步主要是游戏逻辑。上一篇博客中，实现了棋子的坐标格式化，现在需要一些数据结构来存储当前对局的状态。</p>
+<p>现在逻辑下棋子有四个状态：移动前准备，移动，移动后冷却，待机。如果移动到目的地停止时的时刻上，坐标上有对方的棋子，那么当前棋子就可以吃掉对方的棋子，也就是只考虑移动的棋子可以吃掉其他状态的棋子。</p>
+<p>棋盘坐标由二维构成，为此也用二维数组存储棋盘状态，因为所有棋子共享，所以使用static静态储存。</p>
+<p>需要两个数组来存储两种情况下的状态，一个数组用来存储所有就我方棋子，棋子行动后，所有未行动的棋子和未行动棋子的位置信息，目的是判断我方棋子行动是否会发生重叠；另一个数组用来存储双方所有未行动棋子，目的时判断移动棋子落点时，是否发生吃子。</p>
+<p>这里数组存储的信息及是脚本的string型名字，<strong>gameObject.name</strong>，没有棋子即为null。在对象挂载脚本的MonoBehaviour中，<strong>游戏对象本体gameObject和脚本属性transform，都可以在脚本中直接获得</strong>，它们是相关的。同样的，<strong>通过transform，可获得有父子层级关系的游戏对象的transform，通过这个再由transform.gameObject即可得到父子级关系的游戏对象</strong>。<strong>通过GetComponent<Template>()可以得到游戏对象挂载的Template型的组件</strong>。而foreach就可以遍历所有棋子。当然数组可以直接存储Chess型的对象组件，这里为了方便后面的网络编程所以只存储了string型，<strong>通过GameObject.Find(“name”)，可以根据名字获取场景里对应的游戏对象</strong>。</p>
+<p>这里我们只需要一组数组来存储我方行进后的棋盘状态，因为游戏网络对战化后不需要判断对方的行进后的棋盘装状态。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 吃子棋盘状态 只记录静止棋子 计算吃子状态 需要同步</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span>[][] chessBoard;</span><br><span class="line"><span class="comment">// 双方落点棋盘 棋子移动前更新落点 防止重合</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span>[][] myBoard;</span><br></pre></td></tr></table></figure>
+
+<h1 id="类型派生与枚举、检查器特性"><a href="#类型派生与枚举、检查器特性" class="headerlink" title="类型派生与枚举、检查器特性"></a>类型派生与枚举、检查器特性</h1><p>为了方便编程和增强逻辑性，这里把棋子基本类型派生出七个不同棋子类型的派生类，他们拥有相同的属性但是不同的值，重写相同的方法来实现各自的移动规则。</p>
+<p>将七个不同属性的派生类默认id编成到一个enum枚举类型中，给棋子Chess.cs 一个public权限的枚举引用，这样就可以直接在检查器窗口中用下来菜单选择棋子类型的id了。同样的，<strong>public权限的基本属性均可以在检查器中初始化</strong>，这里可以用两个int和一个bool来标注棋子的初始化坐标和是否红方棋子。</p>
+<p>属性可以添加相关特性。</p>
+<ul>
+<li>对属性增加**[Header(“”)]**，检查器中该属性的上方会提供标题来分隔后面的属性。</li>
+<li>对属性增加**[FormerlySerializedAs(“”)]**，变量的值会序列化存储，修改变量名称后，已经挂在脚本的对象不会丢失值。</li>
+<li>对属性增加**[Tooltip(“”)]**，检查器中鼠标悬置在该属性会提示相关信息。</li>
+<li>对属性增加**[Range(min, max)]**，检查器中的数值选项可以通过滑动块选择范围内的数值。</li>
+<li>对属性增加 **[HideInInspector]**，该属性将不能在检查器中显示。</li>
+</ul>
+<img src="http://pic.valhalla.space/img/Blog/PicGo/Blog1-20 Attribute.png.png?Blog" style="zoom:150%;" />
+
+<p>通过EnumExtensions扩展枚举类型，使得能获取值对应的一个字符型的描述特性[Description(“”)]。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> ChessTypeId</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Description(<span class="meta-string">&quot;Empty&quot;</span>)</span>]</span><br><span class="line">    Empty = <span class="number">0</span>,</span><br><span class="line">    [<span class="meta">Description(<span class="meta-string">&quot;JIANG&quot;</span>)</span>]</span><br><span class="line">    JIANG = <span class="number">1</span>,</span><br><span class="line">    [<span class="meta">Description(<span class="meta-string">&quot;SHI&quot;</span>)</span>]</span><br><span class="line">    SHI = <span class="number">2</span>,</span><br><span class="line">    [<span class="meta">Description(<span class="meta-string">&quot;XIANG&quot;</span>)</span>]</span><br><span class="line">    XIANG = <span class="number">3</span>,</span><br><span class="line">    [<span class="meta">Description(<span class="meta-string">&quot;MA&quot;</span>)</span>]</span><br><span class="line">    MA = <span class="number">4</span>,</span><br><span class="line">    [<span class="meta">Description(<span class="meta-string">&quot;CHE&quot;</span>)</span>]</span><br><span class="line">    CHE = <span class="number">5</span>,</span><br><span class="line">    [<span class="meta">Description(<span class="meta-string">&quot;PAO&quot;</span>)</span>]</span><br><span class="line">    PAO = <span class="number">6</span>,</span><br><span class="line">    [<span class="meta">Description(<span class="meta-string">&quot;BING&quot;</span>)</span>]</span><br><span class="line">    BING = <span class="number">7</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title">EnumExtensions</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span> <span class="title">GetDescription</span>(<span class="params"><span class="keyword">this</span> Enum val</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> field = val.GetType().GetField(val.ToString());</span><br><span class="line">        <span class="keyword">var</span> customAttribute = Attribute.GetCustomAttribute(field, <span class="keyword">typeof</span>(DescriptionAttribute));</span><br><span class="line">        <span class="keyword">return</span> customAttribute == <span class="literal">null</span> ? val.ToString() : ((DescriptionAttribute)customAttribute).Description;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>七种棋子的派生类因为只存储基本系，所以使用了单例模式。</p>
+<p>每种派生类实现基类方法即可。不同棋子的走起方法，由坐标来判断，具体参见脚本源码。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">bool</span> <span class="title">LegalCoord</span>(<span class="params">Coord coord, Coord tarCoord, <span class="keyword">bool</span> isRed, <span class="keyword">string</span>[][] board</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<h1 id="脚本的交互"><a href="#脚本的交互" class="headerlink" title="脚本的交互"></a>脚本的交互</h1><p>为了实现等待固定时间执行任务，也就是准备行棋时间和冷却时间，设计了计时器。其原理就是用bool、float和Time.deltaTime实限，计时器的启用和Time.deltaTime的累加。当然也可以使用Invoke()和协程实现，但是将丢失已经等待的具体时间，这个数值可以制作辅助UI，比如冷却条。</p>
+<p>现在由上述逻辑，可以实现以下任务。</p>
+<ol>
+<li>棋子收到移动指令</li>
+<li>棋子设定移动位置和移动前等待时间</li>
+<li>棋子开始移动</li>
+<li>棋子移动到指定位置，停止移动后开始冷却</li>
+</ol>
+<p>需要在任务1前判断是否可移动，之后修改位于我方移动棋子起点和终点，修改位于全局棋盘的起点。在任务4前判断是否需要吃子，之后习修改位于全局棋盘的终点。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">bool</span> <span class="title">LegalMyTargetCoord</span>(<span class="params">Coord tarCoord</span>)</span> &#123; &#125; <span class="comment">// 判断移动是否合法</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">StartPreparing</span>(<span class="params"></span>)</span> &#123; &#125; <span class="comment">// 准备时间计时器</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">LeavingTo</span>(<span class="params"></span>)</span> &#123; &#125; <span class="comment">// 移动位置设置</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">EatChess</span>(<span class="params"></span>)</span> &#123; &#125; <span class="comment">// 吃子逻辑</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ArrivingAt</span>(<span class="params"></span>)</span> &#123; &#125; <span class="comment">// 停止移动</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">StartLoading</span>(<span class="params"></span>)</span> &#123; &#125; <span class="comment">// 冷却时间计时器</span></span><br></pre></td></tr></table></figure>
+
+<p>以下方法在Update()中执行，一旦上面的方法设定好了需要的属性，即可执行。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Preparing</span>(<span class="params"></span>)</span> &#123; &#125; <span class="comment">// 准备时间等待</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">MovingToCoord</span>(<span class="params"></span>)</span> &#123; &#125; <span class="comment">// 移动</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Loading</span>(<span class="params"></span>)</span> &#123; &#125; <span class="comment">// 冷却时间等待</span></span><br></pre></td></tr></table></figure>
+
+<p>其中吃子逻辑涉及到了和其他组件交互。</p>
+<p>通过棋子落点时，全局棋盘坐标数组中，对应坐标是否有对方棋子的名字，判断是否要吃子。如果有，通过Chess tarChess = GameObject.Find(tarName).GetComponent<Chess>()，获取到被吃棋子的脚本，将其脚本禁用tarChess**.enabled = false**，将其在全局棋盘坐标数组中的位置改为null（ArrivingAt()停止逻辑会将改为吃子的棋子），修改其位置到被吃棋子区，并将吃子数加一，用以判断下次被吃子的位置。</p>
+<h1 id="UI"><a href="#UI" class="headerlink" title="UI"></a>UI</h1><p>现在为游戏添加一些UI装饰。UI是一类特殊的游戏对象，可以在场景中添加。<strong>最基础的是canvas画布，其他诸如图片、文字和按钮等元素需要添加到canvas下，canvas需要绑定到主摄像机上</strong>。UI相关的canvas等在场景的展现不同于普通游戏对象，它们是直接渲染在摄像机上的。创建后只需要添加渲染摄像机即可。</p>
+<img src="http://pic.valhalla.space/img/Blog/PicGo/Blog1-20 Canvas.png?Blog" style="zoom:150%;" />
+
+<p>这里添加了一个背景图片，两个吃子区的文字描述，一组选中棋子，三组棋子属性描述。背景图片传入相应的素材即可。这里属性使用的是label-value，脚本只用修改value中文字即可。当然也可以只用一个文字框实现，描述文字和值相加即可。</p>
+<img src="http://pic.valhalla.space/img/Blog/PicGo/Blog1-20 UI.png?Blog" style="zoom:200%;" />
+
+<p>选中棋子的精灵更新需要用图片重新生成精灵赋值给精灵渲染器。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 从Asstes资源文件夹中读取</span></span><br><span class="line">Texture2D temp_texture2d = (Texture2D)Resources.Load(<span class="string">&quot;chess/c_&quot;</span> + (now.isRed?<span class="number">-1</span>:<span class="number">1</span>)*(<span class="keyword">int</span>)now.chessTypeId);</span><br><span class="line"><span class="comment">// 图片为84*84像素</span></span><br><span class="line">SpriteRenderer temp_sprite = Sprite.Create(temp_texture2d, <span class="keyword">new</span> Rect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">84</span>, <span class="number">84</span>), Vector2.zero);</span><br><span class="line">(SpriteRenderer)schess_sprite.sprite = temp_sprite;</span><br></pre></td></tr></table></figure>
+
+<p>而文字的更新相对简单。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> Text mt, lt, mm;</span><br></pre></td></tr></table></figure>
+
+<p>在检查器中，将相关的组件选择到场景中的对应组件关联即可。在Update()中跟新textName.text即可更新UI的对应文字。</p>
+<h1 id="Advanced-INI-Parser"><a href="#Advanced-INI-Parser" class="headerlink" title="Advanced INI Parser"></a>Advanced INI Parser</h1><p><strong>Advanced INI Parser是一个INI插件</strong>，可以在Unity资源商店中找到下载并导入。</p>
+<p>项目新建StreamingAssets文件夹，并创建ini文件，脚本就可以读写该文件，目的是灵活的控制一些基本信息，这里方便存储棋子的基本行棋时间。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">INIParser iniParser = <span class="keyword">new</span> INIParser();</span><br><span class="line">iniParser.Open(Application.streamingAssetsPath + <span class="string">&quot;/information.ini&quot;</span>);        </span><br><span class="line"><span class="keyword">float</span> f = Convert.ToSingle(iniParser.ReadValue(block, name, default_1<span class="number">.0f</span>));</span><br><span class="line">iniParser.Close();</span><br><span class="line"><span class="comment">// in StreamingAssets/information.ini</span></span><br><span class="line"><span class="comment">// [block]</span></span><br><span class="line"><span class="comment">// name = 0.5</span></span><br></pre></td></tr></table></figure>
+
+<p>现在游戏在本地相关的任务基本已经完成，接下来将实现网络相关的对战的功能。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">V-LynX</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/01/20/gameDev/Unity2D-InstantChess-02/">http://example.com/2021/01/20/gameDev/Unity2D-InstantChess-02/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">Observatory</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/GameDev/">GameDev</a><a class="post-meta__tags" href="/tags/Unity/">Unity</a><a class="post-meta__tags" href="/tags/C/">C#</a></div><div class="post_share"><div class="social-share" data-image="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/01/21/gameDev/Unity2D-InstantChess-03/"><img class="prev-cover" src="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Unity2D与Mirror-三天入门-即时战略象棋-(3)网络插件Mirror与打包发行</div></div></a></div><div class="next-post pull-right"><a href="/2021/01/18/gameDev/Unity2D-InstantChess-01/"><img class="next-cover" src="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Unity2D-三天入门-即时战略象棋-(1)精灵与移动</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/01/18/gameDev/Unity2D-InstantChess-01/" title="Unity2D-三天入门-即时战略象棋-(1)精灵与移动"><img class="cover" src="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-18</div><div class="title">Unity2D-三天入门-即时战略象棋-(1)精灵与移动</div></div></a></div><div><a href="/2021/01/21/gameDev/Unity2D-InstantChess-03/" title="Unity2D与Mirror-三天入门-即时战略象棋-(3)网络插件Mirror与打包发行"><img class="cover" src="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-21</div><div class="title">Unity2D与Mirror-三天入门-即时战略象棋-(3)网络插件Mirror与打包发行</div></div></a></div></div></div></article></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By V-LynX</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><section id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script></div></body></html>
