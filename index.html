@@ -85,7 +85,7 @@ var saveToLocal = {
   isHome: true,
   isHighlightShrink: false,
   isSidebar: false,
-  postUpdate: '2021-01-22 02:15:34'
+  postUpdate: '2021-01-22 02:25:13'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -163,8 +163,14 @@ var saveToLocal = {
 网络对战同步行为
 
 承接上一篇博客，现在来实网络对战的功能。
-Mirror介绍过去Unity实现网络功能的部分叫做Unet，但是因为Unet支持的功能不够理想，Unet在Unity2019中被放弃了。可以在Unity窗口-Package Manager中找到新版的网络支持Multiplayer HLAPI。现在为了方便开发减少工作量，采取Unity一个比较流行的插件Mirror来作为网络框架。
-Mirror建立HLAPI上开发而来，不需要导入HLAPI。Mi ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2021/01/20/gameDev/Unity2D-InstantChess-02/" title="Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互与INI插件">     <img class="post_bg" src="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互与INI插件"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/01/20/gameDev/Unity2D-InstantChess-02/" title="Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互与INI插件">Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互与INI插件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-20T05:04:37.000Z" title="发表于 2021-01-20 13:04:37">2021-01-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/GameDev/">GameDev</a><span class="article-meta__link">•</span><a class="article-meta__tags" href="/tags/Unity/">Unity</a><span class="article-meta__link">•</span><a class="article-meta__tags" href="/tags/C/">C#</a></span></div><div class="content">此系列博客用以介绍Unity2D游戏开发的基础。
+开发环境
+Unity 2019.3.4f1
+Visual Studio Community 2019
+脚本语言C#
+
+相关项目项目工程
+将package拖入Project窗口后即可导入新项目，打开Scenes下的playing窗口即是主要工作场景。
+Mirror介绍过去Unity实现网络功能的部分叫做Unet，但是因为Unet支持的功能不够理想，Unet在Unity2019中被放弃了。可以在Uni ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2021/01/20/gameDev/Unity2D-InstantChess-02/" title="Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互与INI插件">     <img class="post_bg" src="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互与INI插件"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/01/20/gameDev/Unity2D-InstantChess-02/" title="Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互与INI插件">Unity2D-三天入门-即时战略象棋-(2)组件交互、UI交互与INI插件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-20T05:04:37.000Z" title="发表于 2021-01-20 13:04:37">2021-01-20</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/GameDev/">GameDev</a><span class="article-meta__link">•</span><a class="article-meta__tags" href="/tags/Unity/">Unity</a><span class="article-meta__link">•</span><a class="article-meta__tags" href="/tags/C/">C#</a></span></div><div class="content">此系列博客用以介绍Unity2D游戏开发的基础。
 游戏介绍：
 游戏素材建立于传统象棋。但是操作不同于传统象棋，玩家可以同时控制多个棋子移动，每个棋子移动到指定位置需要一定的时间，移动到目的地后需要冷却一定时间。因此游戏不再是回合制行动，棋子的行为模式需要即时判断。由于游戏是两人对战的即时战略模式，还需要实现网络对战功能。
 
@@ -186,8 +192,8 @@ Visual Studio Community 2019
 
 相关项目项目工程
 将package拖入Project窗口后即可导入新项目，打开Scenes下的playing窗口即是主要工作场景。
-状态存储这一步主要是游戏逻辑。上一篇博客中，实现了棋子的坐标格式化，现在需要一些数据结构来存储当前对局的状态。
-现在逻辑下棋子有四个状态：移动前准备 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2021/01/18/gameDev/Unity2D-InstantChess-01/" title="Unity2D-三天入门-即时战略象棋-(1)精灵与移动">     <img class="post_bg" src="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity2D-三天入门-即时战略象棋-(1)精灵与移动"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/01/18/gameDev/Unity2D-InstantChess-01/" title="Unity2D-三天入门-即时战略象棋-(1)精灵与移动">Unity2D-三天入门-即时战略象棋-(1)精灵与移动</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-18T14:22:37.000Z" title="发表于 2021-01-18 22:22:37">2021-01-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/GameDev/">GameDev</a><span class="article-meta__link">•</span><a class="article-meta__tags" href="/tags/Unity/">Unity</a><span class="article-meta__link">•</span><a class="article-meta__tags" href="/tags/C/">C#</a></span></div><div class="content">此系列博客用以介绍Unity2D游戏开发的基础。
+状态存储与调用这一步主要是游戏逻辑。上一篇博客中，实现了棋子的坐标格式化，现在需要一些数据结构来存储当前对局的状态。
+现在逻辑下棋子有四个状态：移动 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2021/01/18/gameDev/Unity2D-InstantChess-01/" title="Unity2D-三天入门-即时战略象棋-(1)精灵与移动">     <img class="post_bg" src="http://pic.valhalla.space/img/Blog/PicGo/Unity.jpg?Blog" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity2D-三天入门-即时战略象棋-(1)精灵与移动"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/01/18/gameDev/Unity2D-InstantChess-01/" title="Unity2D-三天入门-即时战略象棋-(1)精灵与移动">Unity2D-三天入门-即时战略象棋-(1)精灵与移动</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-01-18T14:22:37.000Z" title="发表于 2021-01-18 22:22:37">2021-01-18</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox article-meta__icon"></i><a class="article-meta__categories" href="/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a></span><span class="article-meta tags"><span class="article-meta__separator">|</span><i class="fas fa-tag article-meta__icon"></i><a class="article-meta__tags" href="/tags/GameDev/">GameDev</a><span class="article-meta__link">•</span><a class="article-meta__tags" href="/tags/Unity/">Unity</a><span class="article-meta__link">•</span><a class="article-meta__tags" href="/tags/C/">C#</a></span></div><div class="content">此系列博客用以介绍Unity2D游戏开发的基础。
 游戏介绍：
 游戏素材建立于传统象棋。但是操作不同于传统象棋，玩家可以同时控制多个棋子移动，每个棋子移动到指定位置需要一定的时间，移动到目的地后需要冷却一定时间。因此游戏不再是回合制行动，棋子的行为模式需要即时判断。由于游戏是两人对战的即时战略模式，还需要实现网络对战功能。
 
