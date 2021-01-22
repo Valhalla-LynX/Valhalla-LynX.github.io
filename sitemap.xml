@@ -2,49 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://example.com/2021/01/20/gameDev/Unity2D-InstantChess-02/</loc>
+    <loc>http://blog.valhalla.space/2021/01/20/gameDev/Unity2D-InstantChess-02/</loc>
     
     <lastmod>2021-01-21</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2021/01/21/gameDev/Unity2D-InstantChess-03/</loc>
+    <loc>http://blog.valhalla.space/2021/01/21/gameDev/Unity2D-InstantChess-03/</loc>
     
     <lastmod>2021-01-21</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2021/01/18/gameDev/Unity2D-InstantChess-01/</loc>
+    <loc>http://blog.valhalla.space/2021/01/18/gameDev/Unity2D-InstantChess-01/</loc>
     
     <lastmod>2021-01-21</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2021/01/01/social/ChuanxiluNotes/</loc>
+    <loc>http://blog.valhalla.space/2021/01/01/social/ChuanxiluNotes/</loc>
     
     <lastmod>2021-01-21</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/tags/index.html</loc>
+    <loc>http://blog.valhalla.space/tags/index.html</loc>
     
     <lastmod>2020-10-04</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/categories/index.html</loc>
+    <loc>http://blog.valhalla.space/categories/index.html</loc>
     
     <lastmod>2020-10-04</lastmod>
     
   </url>
   
   <url>
-    <loc>http://example.com/2020/10/03/hello-world/</loc>
+    <loc>http://blog.valhalla.space/2020/10/03/hello-world/</loc>
     
     <lastmod>2020-10-03</lastmod>
     
@@ -52,44 +52,44 @@
   
 
   <url>
-    <loc>http://example.com/</loc>
-    <lastmod>2021-01-21</lastmod>
+    <loc>http://blog.valhalla.space/</loc>
+    <lastmod>2021-01-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>http://example.com/tags/GameDev/</loc>
-    <lastmod>2021-01-21</lastmod>
+    <loc>http://blog.valhalla.space/tags/GameDev/</loc>
+    <lastmod>2021-01-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/Unity/</loc>
-    <lastmod>2021-01-21</lastmod>
+    <loc>http://blog.valhalla.space/tags/Unity/</loc>
+    <lastmod>2021-01-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/C/</loc>
-    <lastmod>2021-01-21</lastmod>
+    <loc>http://blog.valhalla.space/tags/C/</loc>
+    <lastmod>2021-01-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/Mirror/</loc>
-    <lastmod>2021-01-21</lastmod>
+    <loc>http://blog.valhalla.space/tags/Social-Science/</loc>
+    <lastmod>2021-01-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/tags/Social-Science/</loc>
-    <lastmod>2021-01-21</lastmod>
+    <loc>http://blog.valhalla.space/tags/Mirror/</loc>
+    <lastmod>2021-01-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -97,15 +97,15 @@
 
   
   <url>
-    <loc>http://example.com/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/</loc>
-    <lastmod>2021-01-21</lastmod>
+    <loc>http://blog.valhalla.space/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2021-01-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://example.com/categories/%E4%BA%BA%E6%96%87%E7%A4%BE%E7%A7%91/</loc>
-    <lastmod>2021-01-21</lastmod>
+    <loc>http://blog.valhalla.space/categories/%E4%BA%BA%E6%96%87%E7%A4%BE%E7%A7%91/</loc>
+    <lastmod>2021-01-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
